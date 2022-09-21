@@ -1,25 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import NTask from './NewTask';
+import Showtask from './ShowTask';
 
 function App() {
+
+  const [NewTask, setNewTask] = useState(false);
+  const [TasksList, setTaskList] = useState([]);
+  const [Completed, setCompleted] = useState(false);
+
+  const PressCompletedButton=()=>{
+    setCompleted(!Completed)
+    setNewTask(false)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <section className='Main'>
+        <div className='Menu-bts '>
+
+          <button onClick={() => setNewTask(!NewTask)}
+            style={{ backgroundColor: NewTask ? "red" : "lightgreen" }}>
+            {NewTask ? "Cancelar" : "+ Nueva Tarea"}
+          </button>
+
+          <button
+            onClick={PressCompletedButton }
+            style={{ backgroundColor: Completed ? "lightskyblue" : "Highlight" }}>
+            {Completed ? "Ver Tareas por completar" : "Ver Tareas completadas"}
+          </button>
+
+          <NTask setTaskList={setTaskList} TasksList={TasksList} setNewTask={setNewTask} NT={NewTask} SC={setCompleted}/>
+
+        </div>
+        <div>
+
+          <Showtask TasksList={TasksList} Completed={Completed} setTaskList={setTaskList} />
+
+        </div>
+      </section>
+    </main>
   );
 }
 
